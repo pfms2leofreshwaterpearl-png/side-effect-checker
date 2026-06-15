@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抗がん剤 副作用チェッカー｜CTCAE v6.0J 準拠</title>
+  <meta name="description" content="抗がん剤の副作用を症状から素早くチェック。CTCAE v6.0J（JCOG準拠）に基づく重症度グレードと対応方針を確認できます。薬局薬剤師向け臨床支援ツール。">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font: 'Noto Sans JP', sans-serif;
+      --pink-50:  #FFF0F6;
+      --pink-100: #FFD6E8;
+      --pink-200: #FFB3CC;
+      --pink-300: #FF80AA;
+      --pink-400: #E85D8A;
+      --pink-500: #C0406D;
+      --pink-600: #922050;
+      --green-50:  #F0FFF4;
+      --green-100: #C6F6D5;
+      --green-200: #68D391;
+      --green-700: #276749;
+      --yellow-50: #FFFFF0;
+      --yellow-100:#FEFCBF;
+      --yellow-300:#F6E05E;
+      --yellow-800:#744210;
+      --orange-50: #FFFAF0;
+      --orange-100:#FEEBC8;
+      --orange-300:#F6AD55;
+      --orange-800:#7B341E;
+      --red-50:    #FFF5F5;
+      --red-100:   #FED7D7;
+      --red-300:   #FC8181;
+      --red-800:   #742A2A;
+      --gray-50:   #F9FAFB;
+      --gray-100:  #F3F4F6;
+      --gray-200:  #E5E7EB;
+      --gray-400:  #9CA3AF;
+      --gray-600:  #4B5563;
+      --gray-800:  #1F2937;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    body {
+      font-family: var(--font);
+      background: linear-gradient(135deg, #FFF0F6 0%, #FFF5FB 50%, #FFF0F0 100%);
+      min-height: 100vh;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--pink-100);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 1rem;
+    }
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--pink-300), var(--pink-400));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 16px;
+    }
+    .logo-text { font-size: 14px; font-weight: 700; color: var(--gray-800); }
+    .logo-text span { color: var(--pink-400); }
+    .header-badge {
+      font-size: 10px;
+      background: var(--pink-50);
+      color: var(--pink-500);
+      border: 1px solid var(--pink-200);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-weight: 500;
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem 1.5rem;
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--pink-50);
+      color: var(--pink-500);
+      border: 1px solid var(--pink-200);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 700;
+      color: var(--gray-800);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .hero h1 em { font-style: normal; color: var(--pink-400); }
+    .hero p {
+      font-size: 14px;
+      color: var(--gray-600);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Progress ── */
+    .progress-wrap { margin-bottom: 1.5rem; }
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .pb-step {
+      height: 5px;
+      flex: 1;
+      border-radius: 3px;
+      background: var(--gray-200);
+      transition: background 0.25s;
+    }
+    .pb-step.done { background: var(--pink-300); }
+    .pb-step.active { background: var(--pink-400); }
+    .step-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--gray-400);
+    }
+
+    /* ── Step container ── */
+    .step { display: none; }
+    .step.active { display: block; animation: fadeUp 0.2s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .step-heading {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--pink-400);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Category grid ── */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .cat-btn {
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px 8px 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .cat-btn:hover {
+      border-color: var(--pink-300);
+      background: var(--pink-50);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .cat-btn:active { transform: translateY(0); }
+    .cat-btn .cat-icon {
+      font-size: 24px;
+      color: var(--pink-400);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .cat-btn .cat-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-800);
+      line-height: 1.4;
+    }
+
+    /* ── Symptom list ── */
+    .sym-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .sym-btn {
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 13px 14px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+    .sym-btn:hover {
+      border-color: var(--pink-300);
+      background: var(--pink-50);
+      box-shadow: var(--shadow-md);
+    }
+    .sym-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--pink-300);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .sym-text {
+      font-size: 14px;
+      color: var(--gray-800);
+      line-height: 1.5;
+    }
+
+    /* ── Question cards ── */
+    .q-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+    .q-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-800);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .q-btns { display: flex; gap: 8px; }
+    .q-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font);
+      transition: all 0.15s;
+      color: var(--gray-600);
+    }
+    .q-btn:hover { background: var(--pink-50); border-color: var(--pink-300); }
+    .q-btn.sel-yes {
+      background: var(--red-100);
+      border-color: var(--red-300);
+      color: var(--red-800);
+    }
+    .q-btn.sel-no {
+      background: var(--green-100);
+      border-color: var(--green-200);
+      color: var(--green-700);
+    }
+
+    /* ── Go button ── */
+    .btn-go {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--pink-300), var(--pink-400));
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 6px;
+      box-shadow: 0 4px 12px rgba(232,93,138,0.35);
+    }
+    .btn-go:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+    }
+    .btn-go:not(:disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(232,93,138,0.4);
+    }
+
+    /* ── Navigation buttons ── */
+    .nav-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+    .btn-back {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 9px 14px;
+      background: white;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font);
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-back:hover { background: var(--gray-100); }
+    .btn-reset {
+      flex: 1;
+      padding: 9px 14px;
+      background: white;
+      border: 1.5px solid var(--pink-200);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font);
+      color: var(--pink-500);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .btn-reset:hover { background: var(--pink-50); }
+
+    /* ── Result card ── */
+    .result-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 14px;
+      border: 2px solid;
+    }
+    .grade-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .grade-badge {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .grade-badge i { font-size: 22px; }
+    .grade-title { font-size: 20px; font-weight: 700; }
+    .grade-sym { font-size: 13px; margin-top: 3px; opacity: 0.85; line-height: 1.4; }
+    .urgency-box {
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .urgency-box i { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 700;
+      color: var(--gray-400);
+      margin: 14px 0 6px;
+    }
+    .selfcare-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .selfcare-list li {
+      font-size: 13px;
+      color: var(--gray-800);
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.5;
+    }
+    .selfcare-list li:last-child { border-bottom: none; }
+    .selfcare-list li::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--pink-300);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .drug-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .drug-tag {
+      display: inline-block;
+      background: var(--pink-50);
+      border: 1px solid var(--pink-200);
+      color: var(--pink-500);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+    }
+
+    /* ── Footer ── */
+    .disclaimer {
+      margin-top: 1.5rem;
+      padding: 14px 16px;
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      color: var(--gray-400);
+      line-height: 1.7;
+      text-align: center;
+    }
+    .disclaimer strong { color: var(--gray-600); }
+
+    footer {
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      padding: 20px 1rem;
+      text-align: center;
+      font-size: 11px;
+      color: var(--gray-400);
+      margin-top: 2rem;
+    }
+    footer a { color: var(--pink-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero h1 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#">
+      <div class="logo-icon"><i class="ti ti-pill" aria-hidden="true"></i></div>
+      <div class="logo-text"><span>副作用</span>チェッカー</div>
+    </a>
+    <span class="header-badge">CTCAE v6.0J 準拠</span>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-chip">
+      <i class="ti ti-shield-check" aria-hidden="true"></i>
+      薬局薬剤師向け臨床支援ツール
+    </div>
+    <h1>患者さんの症状から<br><em>副作用を素早くチェック</em></h1>
+    <p>症状を選んで確認質問に答えるだけで、重症度グレードと対応方針を確認できます</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar">
+      <div class="pb-step" id="pb1"></div>
+      <div class="pb-step" id="pb2"></div>
+      <div class="pb-step" id="pb3"></div>
+      <div class="pb-step" id="pb4"></div>
+    </div>
+    <div class="step-labels">
+      <span>カテゴリ</span>
+      <span>症状</span>
+      <span>確認</span>
+      <span>結果</span>
+    </div>
+  </div>
+
+  <!-- Step 1: Category -->
+  <div class="step active" id="step1">
+    <div class="step-heading">
+      <i class="ti ti-apps" aria-hidden="true"></i>
+      Step 1 — 症状のカテゴリを選ぶ
+    </div>
+    <div class="cat-grid" id="cat-grid">
+      <button class="cat-btn" onclick="selectCat('nausea')">
+        <i class="ti ti-mood-sick cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">吐き気・嘔吐</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('bone')">
+        <i class="ti ti-thermometer cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">発熱・感染</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('mouth')">
+        <i class="ti ti-dental cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">口内炎</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('diarrhea')">
+        <i class="ti ti-arrows-vertical cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">下痢・便秘</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('skin')">
+        <i class="ti ti-hand-stop cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">皮膚・爪の変化</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('nerve')">
+        <i class="ti ti-bolt cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">しびれ・神経症状</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('lung')">
+        <i class="ti ti-lungs cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">息苦しさ・咳</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('edema')">
+        <i class="ti ti-ripple cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">むくみ・体重増加</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('allergy')">
+        <i class="ti ti-alert-triangle cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">アレルギー反応</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('heart')">
+        <i class="ti ti-heart-rate-monitor cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">動悸・胸痛</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('taste')">
+        <i class="ti ti-salad cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">味覚異常・食欲不振</div>
+      </button>
+      <button class="cat-btn" onclick="selectCat('general')">
+        <i class="ti ti-battery-2 cat-icon" aria-hidden="true"></i>
+        <div class="cat-name">だるさ・倦怠感</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Symptom -->
+  <div class="step" id="step2">
+    <div class="step-heading">
+      <i class="ti ti-list-check" aria-hidden="true"></i>
+      Step 2 — 今の状態に近いものを選ぶ
+    </div>
+    <div class="sym-list" id="sym-list"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goStep(1)">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i> カテゴリに戻る
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 3: Questions -->
+  <div class="step" id="step3">
+    <div class="step-heading">
+      <i class="ti ti-help" aria-hidden="true"></i>
+      Step 3 — 確認事項に答える
+    </div>
+    <div id="q-list"></div>
+    <button class="btn-go" id="go-btn" onclick="showResult()" disabled>
+      判定結果を見る →
+    </button>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goStep(2)">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i> 症状に戻る
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 4: Result -->
+  <div class="step" id="step4">
+    <div class="step-heading">
+      <i class="ti ti-clipboard-check" aria-hidden="true"></i>
+      Step 4 — 判定結果
+    </div>
+    <div id="result-area"></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goStep(3)">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i> 確認に戻る
+      </button>
+      <button class="btn-reset" onclick="resetAll()">
+        <i class="ti ti-refresh" aria-hidden="true"></i> 最初からやり直す
+      </button>
+    </div>
+    <div class="disclaimer">
+      <strong>【ご注意】</strong>本チェッカーはCTCAE v6.0J（JCOG 2026年3月基準）に基づく参考情報です。<br>
+      表示された内容はあくまで参考であり、最終的な判断は処方医・主治医が行います。<br>
+      Grade 3以上・緊急性が疑われる場合は、直ちに処方医または救急へご連絡ください。
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>抗がん剤 副作用チェッカー｜CTCAE v6.0J（JCOG 2026年3月基準）準拠</p>
+  <p style="margin-top:6px;">参考文献：がん化学療法副作用対策ハンドブック 各版、オンコカーディオロジー実践マスターガイド 他</p>
+</footer>
+
+<script>
+const DB = {
+  nausea: {
+    label: '吐き気・嘔吐',
+    syms: [
+      { id:'n1', label:'少し気持ち悪いが食事はとれている（食習慣の変更なし）', grade:1 },
+      { id:'n2', label:'食欲は落ちたが何とか食べられている（食事内容・量の変更あり）', grade:2 },
+      { id:'n3', label:'食事がほとんどとれない・栄養補助食品でしのいでいる', grade:3 },
+      { id:'n4', label:'嘔吐が続き水分すら飲めない・経管・点滴が必要な状態', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'38℃以上の発熱を伴っていますか？', weight:1 },
+      { id:'q2', text:'24時間以上、水分も含めてまったく口から摂れていませんか？', weight:2 },
+      { id:'q3', text:'血を吐いた、または便に血が混じっていますか？', weight:2 }
+    ],
+    drugs: ['シスプラチン','カルボプラチン','オキサリプラチン','ドキソルビシン','イリノテカン','シクロホスファミド'],
+    selfcare: [
+      '制吐薬は食前30分に確実に内服する',
+      '冷たい・さっぱりとした食品を少量ずつ試す',
+      'においが強いものを避け、換気をよくする',
+      'ショウガ茶やレモン水が吐き気を和らげることがある',
+      '次コースまでの嘔吐回数・時間帯を記録して医師に報告する'
+    ]
+  },
+  bone: {
+    label: '発熱・感染',
+    syms: [
+      { id:'b1', label:'37.5℃未満の微熱（体がだるい）', grade:1 },
+      { id:'b2', label:'37.5℃以上38℃未満の発熱がある', grade:2 },
+      { id:'b3', label:'38℃以上の発熱がある（抗がん剤投与後10〜14日以内）', grade:3 },
+      { id:'b4', label:'39℃以上の高熱・悪寒・震えがある', grade:4 },
+      { id:'b5', label:'傷・皮膚の赤みが広がっている・化膿している', grade:3 }
+    ],
+    qs: [
+      { id:'q1', text:'好中球数が500/mm³未満（または直近の採血で著明に減少中）との情報がありますか？', weight:2 },
+      { id:'q2', text:'血圧低下・意識がもうろうとした状態がありますか？', weight:2 },
+      { id:'q3', text:'咳・呼吸困難・胸痛を伴っていますか？', weight:1 }
+    ],
+    drugs: ['ほぼすべての細胞障害性抗がん薬（特にフルダラビン・ベンダムスチン・高用量化学療法）'],
+    selfcare: [
+      '体温は毎日同じ時刻に測定・記録してもらう',
+      '38℃以上で必ず医療機関に連絡するよう事前に説明する',
+      '手洗い・うがいを徹底し、人混みや生魚・生野菜を避ける',
+      'ペット（特に爬虫類・鳥）や土の扱いに注意する',
+      '好中球減少のNadir期（投与後10〜14日）は特に注意が必要'
+    ]
+  },
+  mouth: {
+    label: '口内炎',
+    syms: [
+      { id:'m1', label:'口の中がヒリヒリするが食事はとれる', grade:1 },
+      { id:'m2', label:'痛みがあるがお粥・軟らかい食事ならとれる', grade:2 },
+      { id:'m3', label:'痛みが強く食事がほとんどとれない（液体食のみ）', grade:3 },
+      { id:'m4', label:'まったく食べられず点滴が必要な状態', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'口の中に白い苔のようなもの（カンジダ疑い）がありますか？', weight:1 },
+      { id:'q2', text:'38℃以上の発熱を伴っていますか？', weight:2 },
+      { id:'q3', text:'血小板が2万/mm³未満との情報がありますか？', weight:1 }
+    ],
+    drugs: ['メトトレキサート','5-FU（フルオロウラシル）','カペシタビン','ドキソルビシン','エトポシド','放射線治療（頭頸部）との併用時'],
+    selfcare: [
+      '食後は必ず口をゆすぎ、清潔を保つ（電動歯ブラシは避ける）',
+      'アズレンうがい液や保湿ジェルで口の乾燥を防ぐ',
+      '熱い食事・酸っぱいもの・辛いものを避ける',
+      '白い苔状のものは抗真菌薬が必要な場合がある（ステロイドは禁忌）',
+      '5-FU急速静注時はクライオセラピー（口に氷を含む）が有効'
+    ]
+  },
+  diarrhea: {
+    label: '下痢・便秘',
+    syms: [
+      { id:'d1', label:'1日3〜4回の軟便（普段より少し多い）', grade:1 },
+      { id:'d2', label:'1日4〜6回の下痢 ／ 夜間の下痢がある', grade:2 },
+      { id:'d3', label:'1日7回以上の下痢 ／ 立っていられないほどの腹痛', grade:3 },
+      { id:'d4', label:'血便・粘液便・激しい腹痛がある', grade:3 },
+      { id:'d5', label:'3日以上排便がない（お腹が張っている）', grade:2 },
+      { id:'d6', label:'腸が動いていない・お腹が硬い・嘔吐を伴う', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'38℃以上の発熱を伴っていますか？', weight:2 },
+      { id:'q2', text:'脱水症状（口が渇く・尿が出ない・めまい）がありますか？', weight:1 },
+      { id:'q3', text:'血便・黒い便がありますか？', weight:2 }
+    ],
+    drugs: ['イリノテカン（早発性・遅発性下痢）','5-FU／カペシタビン','免疫チェックポイント阻害薬（大腸炎）','ビンクリスチン（麻痺性イレウス）'],
+    selfcare: [
+      '水・お茶・スポーツドリンクで水分を補給（1日1.5L以上を目安）',
+      '下痢時は低残渣食（白米・バナナ・蒸した野菜）に切り替える',
+      'ロペラミドは医師の指示のもとで使用（発熱・感染疑い時は医師に相談）',
+      '便秘時は主治医に相談してから便秘薬を使用する',
+      'イリノテカン使用時は半夏瀉心湯の予防投与が有効な場合がある'
+    ]
+  },
+  skin: {
+    label: '皮膚・爪の変化',
+    syms: [
+      { id:'s1', label:'手・足の皮膚がかたくなってきた（痛みなし）', grade:1 },
+      { id:'s2', label:'手のひら・足の裏に痛みや赤み・水ぶくれがある', grade:2 },
+      { id:'s3', label:'痛みがひどく歩いたり手が使えない', grade:3 },
+      { id:'s4', label:'顔・体幹にニキビのような発疹がある', grade:1 },
+      { id:'s5', label:'発疹に痛み・膿がある・体の広範囲に広がっている', grade:2 },
+      { id:'s6', label:'爪の周りが腫れて痛い（爪囲炎）', grade:2 },
+      { id:'s7', label:'皮膚が大きく剥がれている・粘膜（目・口）にも症状がある', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'38℃以上の発熱がありますか？（感染合併を疑います）', weight:2 },
+      { id:'q2', text:'皮膚から滲出液・膿がみられますか？', weight:1 },
+      { id:'q3', text:'眼や口の粘膜にも変化がありますか？（SJS/TEN疑い）', weight:2 }
+    ],
+    drugs: ['EGFR阻害薬（セツキシマブ・ゲフィチニブ等）→ざ瘡様皮疹','ソラフェニブ・レゴラフェニブ等→手足症候群','5-FU／カペシタビン→手足症候群','タキサン系→爪の変化・脱毛'],
+    selfcare: [
+      '1日2回以上の保湿（ヒルドイド等）を徹底する',
+      '圧や摩擦のかかる靴・手袋に注意する',
+      '入浴は38℃程度のぬるめで短時間にする',
+      '爪は短く保ち、爪囲を清潔にする',
+      '帯状疱疹が疑われる場合は速やかに受診（早期抗ウイルス薬投与が重要）'
+    ]
+  },
+  nerve: {
+    label: 'しびれ・神経症状',
+    syms: [
+      { id:'ne1', label:'手先・足先の軽いしびれ感（日常生活に支障なし）', grade:1 },
+      { id:'ne2', label:'しびれがあり、細かい作業（ボタン・ペン）がしにくい', grade:2 },
+      { id:'ne3', label:'しびれが強く歩行がふらつく・日常生活に明らかな支障がある', grade:3 },
+      { id:'ne4', label:'排尿困難・激しい便秘（自律神経症状）がある', grade:2 },
+      { id:'ne5', label:'突然の激しい頭痛・視力低下・意識変化がある', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'症状は急に悪化しましたか（数日以内）？', weight:1 },
+      { id:'q2', text:'転倒してしまったことがありますか？', weight:1 },
+      { id:'q3', text:'頭痛・視力障害・意識障害を伴っていますか？', weight:2 }
+    ],
+    drugs: ['オキサリプラチン→冷感過敏・しびれ（急性・慢性）','パクリタキセル・ドセタキセル→手足のしびれ','シスプラチン→難聴・感覚障害','ビンクリスチン→便秘・麻痺性イレウス・しびれ','ボルテゾミブ→末梢神経障害'],
+    selfcare: [
+      '冷たいものに触れない（特にオキサリプラチン使用中は重要）',
+      '転倒を防ぐため室内でも滑りにくい靴下を履く',
+      '手すりを積極的に使い、段差に注意する',
+      '「ボタンはかけにくくないか」「紙をめくる感覚は変わっていないか」を毎回確認する',
+      'VAS/NRSでしびれ・痛みを数値化して記録する（0〜10）',
+      '神経障害性疼痛にはデュロキセチン（SNRI）やプレガバリン・ガバペンチンが使われることがある（処方医に相談）'
+    ]
+  },
+  lung: {
+    label: '息苦しさ・咳',
+    syms: [
+      { id:'l1', label:'以前より少し息が切れるようになった（激しい運動時のみ）', grade:1 },
+      { id:'l2', label:'平地を歩くとき息切れがある・空咳が続いている', grade:2 },
+      { id:'l3', label:'少し動くだけで息苦しい・安静時にも息苦しい', grade:3 },
+      { id:'l4', label:'酸素がなければ苦しい・唇や爪が紫色になっている', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'発熱（38℃以上）を伴っていますか？', weight:1 },
+      { id:'q2', text:'SpO₂（血中酸素飽和度）が95%未満に低下していますか？', weight:2 },
+      { id:'q3', text:'急に悪化した（数日以内）ですか？', weight:2 }
+    ],
+    drugs: ['EGFR-TKI（ゲフィチニブ・エルロチニブ等）→間質性肺炎（日本人で約2〜4%）','ブレオマイシン→間質性肺炎・肺線維症（要注意）','ゲムシタビン→重篤な肺障害','ニボルマブ・ペムブロリズマブ等→免疫関連肺炎（irAE）'],
+    selfcare: [
+      '「風邪かな」と自己判断しないよう事前に指導する',
+      '息切れ・空咳・微熱が続いたら翌日を待たず連絡する',
+      'KL-6などの治療前ベースライン値を確認しておく',
+      'パルスオキシメータの使い方と受診基準（SpO₂ 95%未満）を伝える',
+      '既存の間質性肺炎がある患者は特に注意が必要'
+    ]
+  },
+  edema: {
+    label: 'むくみ・体重増加',
+    syms: [
+      { id:'e1', label:'朝だけまぶたや顔が少しむくむ', grade:1 },
+      { id:'e2', label:'足のむくみで靴下の跡が深くつく・靴がきつい', grade:2 },
+      { id:'e3', label:'両足が明らかにむくんで日常生活が制限される', grade:3 },
+      { id:'e4', label:'片足だけ急にむくんで赤く痛い（DVT疑い）', grade:3 },
+      { id:'e5', label:'体重が1週間で2kg以上増えた', grade:2 }
+    ],
+    qs: [
+      { id:'q1', text:'片側だけ急激にむくんでいますか？（深部静脈血栓症の疑い）', weight:2 },
+      { id:'q2', text:'息苦しさや胸の痛みを伴っていますか？（肺塞栓の疑い）', weight:2 },
+      { id:'q3', text:'腹水・胸水が出ているとの情報がありますか？', weight:1 }
+    ],
+    drugs: ['ドセタキセル→体液貯留・末梢性浮腫（累積投与量依存）','イマチニブ→眼瞼浮腫・顔面浮腫（高用量・高齢者で多い）','テポチニブ→体液貯留61%・末梢性浮腫53%','ダサチニブ→浮腫26%','大量補液を要するシスプラチン・大量メトトレキサート等'],
+    selfcare: [
+      '毎日同じ時間・同じ条件で体重を測定・記録する',
+      '足を上げて休む（クッション等で15〜20cm挙上）',
+      '水分・塩分の過剰摂取を避ける',
+      '足首をゆっくり回す軽い運動を行う',
+      'ドセタキセル使用時はデキサメタゾン前投与（体液貯留予防）を確認する'
+    ]
+  },
+  allergy: {
+    label: 'アレルギー反応',
+    syms: [
+      { id:'a1', label:'顔が赤くなった・かゆみがある（投与中）', grade:1 },
+      { id:'a2', label:'じんましんが出た・鼻水・くしゃみが増えた（投与中）', grade:2 },
+      { id:'a3', label:'息苦しい・血圧が下がった・声がれ（投与中）', grade:3 },
+      { id:'a4', label:'意識がなくなりそう・ショック状態（投与中）', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'現在点滴投与中ですか？（投与を中止する必要があります）', weight:2 },
+      { id:'q2', text:'血圧低下・呼吸困難がありますか？', weight:2 },
+      { id:'q3', text:'過去に同じ薬でアレルギーが出たことがありますか？', weight:1 }
+    ],
+    drugs: ['白金製剤（カルボプラチン：6〜8コース以降リスク急増）','パクリタキセル（初回・2回目に多い → 前投薬必須）','リツキシマブ・オビヌツズマブ（初回60〜70%）','ダラツムマブ（64〜77%）','モノクローナル抗体全般（Infusion reaction）'],
+    selfcare: [
+      '過去のアレルギー歴を必ず確認し医師に報告する',
+      '投与前の前投薬（ステロイド・抗ヒスタミン薬）が確実に実施されているか確認する',
+      '初期症状（かゆみ・顔の赤み・のどの違和感）を感じたらすぐ申し出るよう伝える',
+      'Grade 3以上は生命に関わります。速やかに投与中止・アドレナリン投与（大腿外側筋注 0.3mg）の準備を確認'
+    ]
+  },
+  heart: {
+    label: '動悸・胸痛',
+    syms: [
+      { id:'h1', label:'動悸がするが日常生活は普通に送れている', grade:1 },
+      { id:'h2', label:'動悸・息切れで階段が辛い・少し動くと疲れる', grade:2 },
+      { id:'h3', label:'安静時にも胸が痛い・動悸が強い・足がむくんでいる', grade:3 },
+      { id:'h4', label:'胸が激しく痛い・意識がおかしい・脈が非常に速いまたは不規則', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'胸の締め付け感・圧迫感がありますか？（急性冠症候群の疑い）', weight:2 },
+      { id:'q2', text:'脈が不規則または100回/分以上の頻脈がありますか？', weight:1 },
+      { id:'q3', text:'アントラサイクリン系薬剤（ドキソルビシン等）の使用歴がありますか？', weight:1 }
+    ],
+    drugs: ['アントラサイクリン系（ドキソルビシン・エピルビシン）→心筋障害・心不全','トラスツズマブ・ペルツズマブ→心機能低下（可逆的）','VEGF阻害薬（ベバシズマブ等）→高血圧・血栓塞栓症','ニロチニブ・ポナチニブ→動脈閉塞性疾患'],
+    selfcare: [
+      '自宅での血圧・脈拍を毎日記録する習慣をつけてもらう',
+      '動悸・息切れが急に悪化したら即日受診するよう指導する',
+      '急性の胸痛は救急（119番）の対象であることを伝える',
+      '塩分・水分管理、禁煙・節酒の重要性を繰り返し説明する',
+      '循環器内科との連携が必要な場合は処方医に報告する'
+    ]
+  },
+  taste: {
+    label: '味覚異常・食欲不振',
+    syms: [
+      { id:'t1', label:'食事の味がいつもと違う・金属っぽい味がする（食生活の変化なし）', grade:1 },
+      { id:'t2', label:'味がほとんどわからない・不快な味がして食事内容を変えている', grade:2 },
+      { id:'t3', label:'体重が治療前より5〜10%未満減った（体重減少 Grade 1）', grade:1 },
+      { id:'t4', label:'体重が治療前より10〜20%未満減った（体重減少 Grade 2）', grade:2 },
+      { id:'t5', label:'体重が治療前より20%以上減った、または経管・点滴栄養が必要', grade:3 }
+    ],
+    qs: [
+      { id:'q1', text:'体重が治療前より10%以上減っていますか？', weight:1 },
+      { id:'q2', text:'1日の食事量が極端に少なく（目安：1,000kcal以下）、栄養状態が心配ですか？', weight:1 },
+      { id:'q3', text:'水分補給も難しい状態ですか？', weight:2 }
+    ],
+    drugs: ['多くの細胞障害性抗がん薬（メトトレキサート・シスプラチン・タキサン系・フッ化ピリミジン系等）','亜鉛欠乏を来す薬剤（フッ化ピリミジン系等：亜鉛補充が有効な場合あり）','免疫チェックポイント阻害薬（免疫関連味覚障害）'],
+    selfcare: [
+      '亜鉛を含む食品（牡蠣・牛肉・ごま等）を積極的に摂る',
+      '冷たい食品は味を感じやすいことがある（冷やご飯・冷やし中華等）',
+      '食器を金属製から陶器・プラスチック製に変えると金属味が軽減することがある',
+      '少量・高エネルギーの食事を1日5〜6回に分けて食べる',
+      '体重・食事量を毎日記録して次回受診時に必ず報告してもらう（※味覚不全のCTCAE v6.0J定義はGrade 1〜2のみ。体重減少は別の有害事象として評価する）'
+    ]
+  },
+  general: {
+    label: 'だるさ・倦怠感',
+    syms: [
+      { id:'g1', label:'いつもよりだるいが普段の生活はできる', grade:1 },
+      { id:'g2', label:'だるくて外出・家事が減ってきた', grade:2 },
+      { id:'g3', label:'ほとんどベッドで過ごしている・自分のことが自分でできない', grade:3 },
+      { id:'g4', label:'まったく起き上がれない・日常的なケアに介助が必要', grade:4 }
+    ],
+    qs: [
+      { id:'q1', text:'発熱（38℃以上）・息苦しさ・強い頭痛など、他の症状を伴っていますか？', weight:2 },
+      { id:'q2', text:'ヘモグロビンが低い（貧血）との情報がありますか？', weight:1 },
+      { id:'q3', text:'数日以内に急激に悪化しましたか？（急な変化は他の病態の合併を疑います）', weight:1 }
+    ],
+    drugs: ['倦怠感・易疲労性を副作用にもつほぼすべての抗がん薬','免疫チェックポイント阻害薬（内分泌障害による場合がある）','アロマターゼ阻害薬（筋肉骨格障害・廃用症候群）'],
+    selfcare: [
+      '日中の活動と休息のバランスを記録してもらう',
+      'ベッドで過ごす時間が増えたら廃用症候群に注意（リハビリの適応あり）',
+      '貧血がある場合は造血薬等の治療を処方医に相談する',
+      '軽い散歩など低負荷の運動を続けることが改善につながる（推奨グレード1B）',
+      'ただちに「動けない」と判断せず、ベッド上での軽い体操から試みてもらう'
+    ]
+  }
+};
+
+const GRADE_CFG = {
+  1: {
+    bg:'#F0FFF4', border:'#68D391', text:'#276749', badge:'#C6F6D5',
+    label:'Grade 1', desc:'軽度',
+    icon:'ti-circle-check',
+    urgBg:'#C6F6D5', urgText:'#276749',
+    msg:'経過観察で対応可能です。次回受診時に医師へ報告してください。'
+  },
+  2: {
+    bg:'#FFFFF0', border:'#F6E05E', text:'#744210', badge:'#FEFCBF',
+    label:'Grade 2', desc:'中等度',
+    icon:'ti-alert-circle',
+    urgBg:'#FEFCBF', urgText:'#744210',
+    msg:'医師への報告が必要です。現在の対症療法を確認し、悪化した場合は早めに受診するよう指導してください。'
+  },
+  3: {
+    bg:'#FFFAF0', border:'#F6AD55', text:'#7B341E', badge:'#FEEBC8',
+    label:'Grade 3', desc:'高度',
+    icon:'ti-alert-triangle',
+    urgBg:'#FEEBC8', urgText:'#7B341E',
+    msg:'今日中に処方医へ連絡してください。薬の減量・休薬が必要な可能性があります。'
+  },
+  4: {
+    bg:'#FFF5F5', border:'#FC8181', text:'#742A2A', badge:'#FED7D7',
+    label:'Grade 4', desc:'重篤',
+    icon:'ti-urgent',
+    urgBg:'#FED7D7', urgText:'#742A2A',
+    msg:'緊急対応が必要です。直ちに処方医または救急（119番）へ連絡してください！'
+  }
+};
+
+let state = { cat:null, sym:null, symGrade:0, qAnswers:{} };
+
+function selectCat(cat) {
+  state.cat = cat; state.sym = null; state.symGrade = 0; state.qAnswers = {};
+  renderSyms(); goStep(2);
+}
+
+function renderSyms() {
+  const list = document.getElementById('sym-list');
+  list.innerHTML = '';
+  DB[state.cat].syms.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'sym-btn';
+    btn.innerHTML = `<span class="sym-dot" aria-hidden="true"></span><span class="sym-text">${s.label}</span>`;
+    btn.onclick = () => { state.sym = s; state.symGrade = s.grade; state.qAnswers = {}; renderQs(); goStep(3); };
+    list.appendChild(btn);
+  });
+}
+
+function renderQs() {
+  const el = document.getElementById('q-list');
+  el.innerHTML = '';
+  DB[state.cat].qs.forEach(q => {
+    const d = document.createElement('div');
+    d.className = 'q-card';
+    d.innerHTML = `
+      <div class="q-text">${q.text}</div>
+      <div class="q-btns">
+        <button class="q-btn" id="yes-${q.id}" onclick="answerQ('${q.id}', true, ${q.weight})">はい</button>
+        <button class="q-btn" id="no-${q.id}" onclick="answerQ('${q.id}', false, ${q.weight})">いいえ / 不明</button>
+      </div>`;
+    el.appendChild(d);
+  });
+  document.getElementById('go-btn').disabled = true;
+}
+
+function answerQ(id, val, weight) {
+  state.qAnswers[id] = { val, weight };
+  document.getElementById('yes-' + id).className = 'q-btn' + (val ? ' sel-yes' : '');
+  document.getElementById('no-' + id).className = 'q-btn' + (!val ? ' sel-no' : '');
+  const allDone = DB[state.cat].qs.every(q => state.qAnswers[q.id] !== undefined);
+  document.getElementById('go-btn').disabled = !allDone;
+}
+
+function calcGrade() {
+  let bonus = 0;
+  Object.values(state.qAnswers).forEach(a => { if (a.val) bonus = Math.max(bonus, a.weight); });
+  let g = state.symGrade + (bonus >= 2 ? 1 : 0);
+  return Math.min(g, 4);
+}
+
+function showResult() {
+  const grade = calcGrade();
+  const gc = GRADE_CFG[grade];
+  const data = DB[state.cat];
+  const area = document.getElementById('result-area');
+  area.innerHTML = `
+    <div class="result-card" style="background:${gc.bg};border-color:${gc.border};">
+      <div class="grade-header">
+        <div class="grade-badge" style="background:${gc.badge};color:${gc.text};">
+          <i class="ti ${gc.icon}" aria-hidden="true"></i>
+          <span style="font-size:9px;margin-top:2px;">${gc.label}</span>
+        </div>
+        <div>
+          <div class="grade-title" style="color:${gc.text};">${gc.label}（${gc.desc}）</div>
+          <div class="grade-sym" style="color:${gc.text};">${state.sym.label}</div>
+        </div>
+      </div>
+      <div class="urgency-box" style="background:${gc.urgBg};color:${gc.urgText};">
+        <i class="ti ti-phone" aria-hidden="true"></i>
+        <span>${gc.msg}</span>
+      </div>
+      <div class="section-label">患者への指導ポイント</div>
+      <ul class="selfcare-list">
+        ${data.selfcare.map(s => `<li>${s}</li>`).join('')}
+      </ul>
+      <div class="section-label">原因になりやすい抗がん剤の例</div>
+      <div class="drug-tags">
+        ${data.drugs.map(d => `<span class="drug-tag">${d}</span>`).join('')}
+      </div>
+    </div>`;
+  goStep(4);
+}
+
+function goStep(n) {
+  document.querySelectorAll('.step').forEach((el, i) => {
+    el.classList.toggle('active', i + 1 === n);
+  });
+  document.querySelectorAll('.pb-step').forEach((el, i) => {
+    el.classList.toggle('done', i + 1 < n);
+    el.classList.toggle('active', i + 1 === n);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetAll() {
+  state = { cat:null, sym:null, symGrade:0, qAnswers:{} };
+  goStep(1);
+}
+</script>
+</body>
+</html>
