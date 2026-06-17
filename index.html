@@ -500,6 +500,73 @@
       height: 100%;
       stroke: var(--pink-400);
     }
+
+    /* ── Pain multi-step ── */
+    .pain-sub { font-size: 11px; color: var(--pink-400); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .pain-site-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+    .pain-site-btn { border: 1.5px solid var(--gray-200); background: white; border-radius: var(--radius-sm);
+      padding: 10px 6px; cursor: pointer; text-align: center; font-size: 12px; font-weight: 500;
+      color: var(--gray-600); transition: all 0.15s; font-family: var(--font); line-height: 1.4; }
+    .pain-site-btn:hover { border-color: var(--pink-300); background: var(--pink-50); }
+    .pain-site-btn.selected { border: 2px solid var(--pink-400); background: var(--pink-50); color: var(--pink-500); }
+    .pain-char-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 1rem; }
+    .pain-char-btn { border: 1.5px solid var(--gray-200); background: white; border-radius: var(--radius-md);
+      padding: 10px 12px; cursor: pointer; text-align: left; font-family: var(--font);
+      transition: all 0.15s; }
+    .pain-char-btn:hover { border-color: var(--pink-300); background: var(--pink-50); }
+    .pain-char-btn.selected { border: 2px solid var(--pink-400); background: var(--pink-50); }
+    .pain-char-name { font-size: 13px; font-weight: 500; color: var(--gray-800); }
+    .pain-char-desc { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+    .nrs-wrap { margin-bottom: 1rem; }
+    .nrs-track { display: flex; gap: 4px; margin: 10px 0; }
+    .nrs-btn { flex: 1; padding: 10px 0; border: 1.5px solid var(--gray-200); border-radius: 6px;
+      background: white; cursor: pointer; font-size: 13px; font-weight: 700;
+      font-family: var(--font); transition: all 0.12s; color: var(--gray-600); }
+    .nrs-btn:hover { transform: translateY(-2px); }
+    .nrs-btn.nrs-0 { color: var(--green-700); }
+    .nrs-btn.nrs-mild { background: #f0fdf4; border-color: var(--green-200); color: var(--green-700); }
+    .nrs-btn.nrs-mod { background: #fffbeb; border-color: var(--yellow-300); color: var(--yellow-800); }
+    .nrs-btn.nrs-sev { background: #fff7ed; border-color: var(--orange-300); color: var(--orange-800); }
+    .nrs-btn.selected { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-width: 2px; }
+    .nrs-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--gray-400); }
+    .pattern-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+    .pattern-btn { border: 1.5px solid var(--gray-200); background: white; border-radius: var(--radius-md);
+      padding: 12px 14px; cursor: pointer; text-align: left; font-family: var(--font); transition: all 0.15s; }
+    .pattern-btn:hover { border-color: var(--pink-300); background: var(--pink-50); }
+    .pattern-btn.selected { border: 2px solid var(--pink-400); background: var(--pink-50); }
+    .pattern-name { font-size: 14px; font-weight: 500; color: var(--gray-800); }
+    .pattern-desc { font-size: 12px; color: var(--gray-500); margin-top: 3px; line-height: 1.4; }
+    .opioid-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+    .opioid-table th { background: var(--pink-100); color: var(--pink-600); padding: 6px 8px;
+      text-align: left; font-weight: 700; border-bottom: 1.5px solid var(--pink-200); }
+    .opioid-table td { padding: 6px 8px; border-bottom: 0.5px solid var(--gray-200);
+      color: var(--gray-800); vertical-align: top; }
+    .opioid-table tr:last-child td { border-bottom: none; }
+    .opioid-table .drug-name { font-weight: 500; color: var(--pink-500); }
+    .calc-box { background: var(--pink-50); border: 1px solid var(--pink-200); border-radius: var(--radius-md);
+      padding: 12px 14px; margin: 10px 0; }
+    .calc-label { font-size: 11px; color: var(--pink-500); font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .calc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 13px; }
+    .calc-drug { font-weight: 500; min-width: 130px; color: var(--gray-700); }
+    .calc-val { font-size: 15px; font-weight: 700; color: var(--pink-500); }
+    .calc-unit { font-size: 11px; color: var(--gray-400); }
+    .emergency-box { background: #FFF5F5; border: 2px solid var(--red-300); border-radius: var(--radius-md);
+      padding: 12px 14px; margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; }
+    .emergency-box i { color: var(--red-300); font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .emergency-text { font-size: 13px; color: var(--red-800); font-weight: 500; line-height: 1.5; }
+    .guideline-badge { display: inline-flex; align-items: center; gap: 4px; background: #EEF2FF;
+      border: 0.5px solid #C7D2FE; border-radius: 999px; font-size: 10px; color: #4338CA;
+      padding: 2px 10px; font-weight: 500; margin-bottom: 8px; }
+    .pain-result-card { border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; border: 2px solid; }
+    .opioid-input-wrap { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+    .opioid-input-wrap select { flex: 1; padding: 8px; border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font); background: white; color: var(--gray-800); }
+    .opioid-input-wrap input[type=number] { width: 80px; padding: 8px; border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font); text-align: center; }
+    .opioid-calc-result { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-sm);
+      padding: 10px 14px; margin-top: 8px; }
+
     /* ── Skin multi-step ── */
     .body-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
     .body-btn { border: 1.5px solid var(--gray-200); background: white; border-radius: var(--radius-sm);
@@ -630,6 +697,10 @@
         <span class="cat-svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h4M6 10h4M6 14h4M14 6h4M14 10h2"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M14 14l2 2 4-4"/></svg></span>
         <div class="cat-name">だるさ・倦怠感</div>
       </button>
+      <button class="cat-btn" onclick="selectCat('pain')">
+        <span class="cat-svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M9 17c0 2.2 1.3 4 3 4s3-1.8 3-4"/><path d="M7 11h10"/></svg></span>
+        <div class="cat-name">痛み（がん疼痛）</div>
+      </button>
     </div>
   </div>
 
@@ -693,6 +764,360 @@
 </footer>
 
 <script>
+
+// ══════════════════════════════════════════════════
+//  がん疼痛 (pain) 多段階フロー
+//  根拠：日本緩和医療学会ガイドライン(www.jsco-cpg.jp/guideline/23.html)
+// ══════════════════════════════════════════════════
+
+const PAIN_SITES = [
+  { id:'head',    label:'頭部・顔面',  hint:'頭痛、顔面痛' },
+  { id:'neck',    label:'頸部・肩',    hint:'首、肩の痛み' },
+  { id:'chest',   label:'胸部',        hint:'胸痛、肋骨部' },
+  { id:'upper',   label:'上腹部',      hint:'みぞおち、腹腔神経叢' },
+  { id:'lower',   label:'下腹部・骨盤',hint:'骨盤内、会陰部' },
+  { id:'back',    label:'腰・背中',    hint:'腰痛、背部痛' },
+  { id:'limb',    label:'四肢',        hint:'腕・脚・骨転移' },
+  { id:'perineum',label:'会陰・肛門周囲',hint:'仙骨部、直腸' },
+  { id:'whole',   label:'全身・複数部位',hint:'広範囲の痛み' },
+];
+
+const PAIN_CHARS = [
+  { id:'throbbing', label:'ズキズキ・ドクドク', desc:'拍動性・炎症・骨転移に多い', type:'nociceptive' },
+  { id:'electric',  label:'ビリビリ・電気が走る', desc:'神経障害性疼痛を示唆', type:'neuropathic' },
+  { id:'burning',   label:'ジリジリ・焼けるよう', desc:'神経障害性疼痛を示唆', type:'neuropathic' },
+  { id:'pressure',  label:'重い・締め付けられる', desc:'内臓痛・体性痛に多い', type:'visceral' },
+  { id:'restless',  label:'そわそわ・じっとできない', desc:'内臓痛・がん疼痛に多い', type:'visceral' },
+  { id:'sharp',     label:'刺すような・鋭い', desc:'体性痛・骨転移痛に多い', type:'nociceptive' },
+  { id:'allodynia', label:'触れるだけで痛い', desc:'アロディニア・神経障害性を示唆', type:'neuropathic' },
+  { id:'dull',      label:'だるい・じわじわ',  desc:'慢性持続痛・内臓痛に多い', type:'visceral' },
+];
+
+const PAIN_PATTERNS = [
+  { id:'continuous', label:'ずっと続いている（持続痛）',
+    desc:'1日の大半を通じて痛みがある状態。定時鎮痛薬の調整が中心。' },
+  { id:'breakthrough', label:'急に強くなることがある（突出痛あり）',
+    desc:'安静時は軽度でも、動作・処置・突然のタイミングで増強する。' },
+  { id:'both', label:'両方ある（持続痛＋突出痛）',
+    desc:'ベースの持続痛に加え、突発的な増強もある状態。' },
+];
+
+// オピオイド等価換算（経口モルヒネ換算基準）
+// 根拠：慶應義塾大学病院緩和ケアセンター換算表・NCC緩和ケアチーム換算例・聖隷三方原病院症状緩和ガイド
+const OPIOID_DRUGS = [
+  { id:'morphine_oral',   name:'経口モルヒネ',       brand:'MSコンチン、モルペス等',  unit:'mg/日', toMorphine:1,     route:'経口' },
+  { id:'morphine_iv',     name:'モルヒネ注射（持続）', brand:'モルヒネ注1%等',         unit:'mg/日', toMorphine:2,     route:'注射' },
+  { id:'morphine_rect',   name:'モルヒネ坐剤',        brand:'アンペック坐剤',          unit:'mg/日', toMorphine:1.5,   route:'坐剤' },
+  { id:'oxycodone_oral',  name:'経口オキシコドン',    brand:'オキシコンチンTR、オキノーム', unit:'mg/日', toMorphine:1.5,  route:'経口' },
+  { id:'oxycodone_iv',    name:'オキシコドン注（持続）',brand:'オキファスト注',          unit:'mg/日', toMorphine:2,     route:'注射' },
+  { id:'fentanyl_patch',  name:'フェンタニル貼付剤',   brand:'フェントステープ（1日製剤）', unit:'mg/日（貼付剤規格）', toMorphine:100, route:'貼付' },
+  { id:'fentanyl_iv',     name:'フェンタニル注（持続）',brand:'フェンタニル注',          unit:'mg/日', toMorphine:100,   route:'注射' },
+  { id:'hydromorphone_oral',name:'経口ヒドロモルフォン', brand:'ナルサス、ナルラピド',    unit:'mg/日', toMorphine:5,    route:'経口' },
+  { id:'hydromorphone_iv',name:'ヒドロモルフォン注（持続）',brand:'ナルベイン注',         unit:'mg/日', toMorphine:25,   route:'注射' },
+  { id:'tramadol_oral',   name:'経口トラマドール',     brand:'トラマール、ワントラム',   unit:'mg/日', toMorphine:0.2,   route:'経口' },
+  { id:'codeine_oral',    name:'経口コデイン',         brand:'コデインリン酸塩錠',       unit:'mg/日', toMorphine:0.167, route:'経口' },
+];
+
+let painState = {
+  site: null, chars: [], nrs: null, pattern: null,
+  currentDrug: null, currentDose: null, subStep: 1
+};
+
+function selectCatPain() {
+  painState = { site:null, chars:[], nrs:null, pattern:null, currentDrug:null, currentDose:null, subStep:1 };
+  renderPainStep1();
+  goStep(2);
+}
+
+function renderPainStep1() {
+  const el = document.getElementById('sym-list');
+  el.innerHTML = `
+    <div class="pain-sub">① どこが痛いですか？</div>
+    <div class="pain-site-grid" id="pain-site-grid"></div>
+    <button class="btn-go" id="pain-next1" onclick="painNext1()" disabled>次へ：痛みの性状を選ぶ →</button>
+  `;
+  const grid = document.getElementById('pain-site-grid');
+  PAIN_SITES.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'pain-site-btn' + (painState.site === s.id ? ' selected' : '');
+    btn.innerHTML = `<div style="font-size:11px;font-weight:500">${s.label}</div><div style="font-size:10px;color:var(--gray-400);margin-top:2px">${s.hint}</div>`;
+    btn.onclick = () => {
+      painState.site = s.id;
+      document.querySelectorAll('.pain-site-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('pain-next1').disabled = false;
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function painNext1() { painState.subStep = 2; renderPainStep2(); }
+
+function renderPainStep2() {
+  const el = document.getElementById('sym-list');
+  el.innerHTML = `
+    <div class="pain-sub">② どんな痛みですか？（複数選択可）</div>
+    <div class="pain-char-grid" id="pain-char-grid"></div>
+    <button class="btn-go" id="pain-next2" onclick="painNext2()" disabled>次へ：痛みの強さを確認する →</button>
+    <button class="btn-back" onclick="renderPainStep1()" style="margin-top:8px">
+      <i class="ti ti-arrow-left"></i> 部位に戻る
+    </button>
+  `;
+  const grid = document.getElementById('pain-char-grid');
+  PAIN_CHARS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'pain-char-btn' + (painState.chars.includes(c.id) ? ' selected' : '');
+    btn.innerHTML = `<div class="pain-char-name">${c.label}</div><div class="pain-char-desc">${c.desc}</div>`;
+    btn.onclick = () => {
+      if (painState.chars.includes(c.id)) {
+        painState.chars = painState.chars.filter(x => x !== c.id);
+        btn.classList.remove('selected');
+      } else {
+        painState.chars.push(c.id);
+        btn.classList.add('selected');
+      }
+      document.getElementById('pain-next2').disabled = painState.chars.length === 0;
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function painNext2() { painState.subStep = 3; renderPainStep3(); }
+
+function renderPainStep3() {
+  const el = document.getElementById('sym-list');
+  el.innerHTML = `
+    <div class="pain-sub">③ 痛みの強さ（NRS 0〜10）</div>
+    <div style="font-size:13px;color:var(--gray-600);margin-bottom:8px;">「0＝痛みなし」〜「10＝これ以上ない最悪の痛み」で、今の痛みはどれくらいですか？</div>
+    <div class="nrs-wrap">
+      <div class="nrs-track" id="nrs-track"></div>
+      <div class="nrs-labels"><span>痛みなし</span><span>中程度</span><span>最悪の痛み</span></div>
+    </div>
+    <button class="btn-go" id="pain-next3" onclick="painNext3()" disabled>次へ：痛みのパターンを確認する →</button>
+    <button class="btn-back" onclick="renderPainStep2()" style="margin-top:8px">
+      <i class="ti ti-arrow-left"></i> 性状に戻る
+    </button>
+  `;
+  const track = document.getElementById('nrs-track');
+  for (let i = 0; i <= 10; i++) {
+    const btn = document.createElement('button');
+    let cls = 'nrs-btn ';
+    if (i === 0) cls += 'nrs-0';
+    else if (i <= 3) cls += 'nrs-mild';
+    else if (i <= 6) cls += 'nrs-mod';
+    else cls += 'nrs-sev';
+    btn.className = cls + (painState.nrs === i ? ' selected' : '');
+    btn.textContent = i;
+    btn.onclick = () => {
+      painState.nrs = i;
+      document.querySelectorAll('.nrs-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('pain-next3').disabled = false;
+    };
+    track.appendChild(btn);
+  }
+}
+
+function painNext3() { painState.subStep = 4; renderPainStep4(); }
+
+function renderPainStep4() {
+  const el = document.getElementById('sym-list');
+  el.innerHTML = `
+    <div class="pain-sub">④ 痛みのパターン</div>
+    <div class="pattern-grid" id="pattern-grid"></div>
+    <button class="btn-back" onclick="renderPainStep3()" style="margin-top:8px">
+      <i class="ti ti-arrow-left"></i> 痛みの強さに戻る
+    </button>
+  `;
+  const grid = document.getElementById('pattern-grid');
+  PAIN_PATTERNS.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'pattern-btn';
+    btn.innerHTML = `<div class="pattern-name">${p.label}</div><div class="pattern-desc">${p.desc}</div>`;
+    btn.onclick = () => { painState.pattern = p.id; renderPainStep5(); };
+    grid.appendChild(btn);
+  });
+}
+
+function renderPainStep5() {
+  const el = document.getElementById('sym-list');
+  el.innerHTML = `
+    <div class="pain-sub">⑤ 現在使用中のオピオイドがあれば入力（換算に使います）</div>
+    <div style="font-size:12px;color:var(--gray-500);margin-bottom:10px;">使用していない場合は「なし」のまま次へ進んでください</div>
+    <div class="opioid-input-wrap">
+      <select id="opioid-select" onchange="updateOpioidCalc()">
+        <option value="">── 薬剤を選択 ──</option>
+        ${OPIOID_DRUGS.map(d => `<option value="${d.id}">${d.name}（${d.brand}）</option>`).join('')}
+      </select>
+    </div>
+    <div class="opioid-input-wrap">
+      <span style="font-size:13px;color:var(--gray-600);min-width:60px;">1日量</span>
+      <input type="number" id="opioid-dose" min="0" step="1" placeholder="例：40" onchange="updateOpioidCalc()">
+      <span style="font-size:12px;color:var(--gray-400);" id="opioid-unit">mg/日</span>
+    </div>
+    <div id="opioid-calc-area"></div>
+    <button class="btn-go" onclick="showPainResult()" style="margin-top:12px">判定結果を見る →</button>
+    <button class="btn-back" onclick="renderPainStep4()" style="margin-top:8px">
+      <i class="ti ti-arrow-left"></i> パターンに戻る
+    </button>
+  `;
+}
+
+function updateOpioidCalc() {
+  const sel = document.getElementById('opioid-select');
+  const doseEl = document.getElementById('opioid-dose');
+  const unitEl = document.getElementById('opioid-unit');
+  const area = document.getElementById('opioid-calc-area');
+  const drugId = sel.value;
+  const dose = parseFloat(doseEl.value);
+  const drug = OPIOID_DRUGS.find(d => d.id === drugId);
+  if (drug) {
+    unitEl.textContent = drug.unit;
+    painState.currentDrug = drugId;
+  }
+  if (!drug || !dose || dose <= 0) { area.innerHTML = ''; return; }
+  painState.currentDose = dose;
+  const morphineEq = dose * drug.toMorphine;
+  let rows = '';
+  OPIOID_DRUGS.forEach(d => {
+    if (d.id === drugId) return;
+    const converted = morphineEq / d.toMorphine;
+    rows += `<div class="calc-row">
+      <span class="calc-drug">${d.name}</span>
+      <span class="calc-val">${converted % 1 === 0 ? converted : converted.toFixed(1)}</span>
+      <span class="calc-unit">${d.unit}</span>
+    </div>`;
+  });
+  area.innerHTML = `
+    <div class="calc-box">
+      <div class="calc-label">オピオイド等価換算（経口モルヒネ換算値：${morphineEq % 1 === 0 ? morphineEq : morphineEq.toFixed(1)} mg/日）</div>
+      ${rows}
+      <div style="font-size:10px;color:var(--gray-400);margin-top:8px;">※換算値はあくまで目安です。実際の切り替えは不完全交差耐性を考慮し25〜50%減量から開始し、処方医が決定します。</div>
+    </div>`;
+}
+
+function showPainResult() {
+  const site = PAIN_SITES.find(s => s.id === painState.site);
+  const chars = PAIN_CHARS.filter(c => painState.chars.includes(c.id));
+  const pattern = PAIN_PATTERNS.find(p => p.id === painState.pattern);
+  const nrs = painState.nrs;
+  const hasNeuropathic = chars.some(c => c.type === 'neuropathic');
+  const hasVisceral = chars.some(c => c.type === 'visceral');
+
+  // NRSによる重症度判定
+  let severity, severityColor, severityBg, severityBorder;
+  if (nrs <= 3) {
+    severity = '軽度（NRS ' + nrs + '）';
+    severityColor = 'var(--green-700)'; severityBg = 'var(--green-50)'; severityBorder = 'var(--green-200)';
+  } else if (nrs <= 6) {
+    severity = '中等度（NRS ' + nrs + '）';
+    severityColor = 'var(--yellow-800)'; severityBg = 'var(--yellow-50)'; severityBorder = 'var(--yellow-300)';
+  } else {
+    severity = '高度（NRS ' + nrs + '）';
+    severityColor = 'var(--orange-800)'; severityBg = 'var(--orange-50)'; severityBorder = 'var(--orange-300)';
+  }
+
+  // 緊急サインチェック（部位・性状から）
+  const emergencyFlags = [];
+  if (painState.site === 'back' || painState.site === 'limb') {
+    emergencyFlags.push('腰背部・四肢の強い痛み → 脊髄圧迫症候群・骨折の可能性を除外してください（緊急性あり）');
+  }
+  if (painState.site === 'chest') {
+    emergencyFlags.push('胸部の急性痛 → 心臓・肺塞栓・骨折等のオンコロジーエマージェンシーを確認してください');
+  }
+  if (nrs >= 7) {
+    emergencyFlags.push('NRS 7以上の高度疼痛 → 速放性製剤（レスキュー薬）の使用と早急な処方医へのご連絡をご検討ください');
+  }
+
+  // ガイドライン上の対応方針
+  let approach = '';
+  if (nrs <= 3) {
+    approach = '非オピオイド鎮痛薬（アセトアミノフェン・NSAIDs）から開始。鎮痛効果不十分な場合はオピオイドの導入を検討。';
+  } else if (nrs <= 6) {
+    approach = '弱オピオイド（トラマドール・コデイン）またはオピオイド（モルヒネ・オキシコドン等）の導入を検討。非オピオイド鎮痛薬との併用も有効。';
+  } else {
+    approach = '中等度以上：オピオイドの早急な導入・増量を検討。痛みが不安定な場合は速放性製剤・持続注射での調整が原則。';
+  }
+
+  // 神経障害性・突出痛の追加情報
+  let additionalInfo = '';
+  if (hasNeuropathic) {
+    additionalInfo += '<li>神経障害性疼痛が示唆されます → 鎮痛補助薬（プレガバリン・デュロキセチン・抗うつ薬等）の併用を処方医に相談してください</li>';
+  }
+  if (hasVisceral && (painState.site === 'upper' || painState.site === 'lower')) {
+    additionalInfo += '<li>内臓痛（上腹部）：腹腔神経叢ブロック等の神経ブロックの適応を早期に専門家に相談することをガイドラインは推奨しています</li>';
+  }
+  if (painState.pattern === 'breakthrough' || painState.pattern === 'both') {
+    additionalInfo += '<li>突出痛あり → レスキュー薬（定時薬の1日量の1/6を目安）が使用できる状態か確認してください</li>';
+    additionalInfo += '<li>突出痛が予測できる場合（動作前など）→ 動作前のレスキュー投与を検討してください</li>';
+  }
+  if (painState.pattern === 'continuous' || painState.pattern === 'both') {
+    additionalInfo += '<li>持続痛あり → 定時鎮痛薬の用量が適切か評価してください。副作用がなければ増量を検討します</li>';
+  }
+
+  const area = document.getElementById('result-area');
+  area.innerHTML = `
+    <div class="guideline-badge">
+      <i class="ti ti-book" style="font-size:12px;"></i>
+      日本緩和医療学会 がん疼痛薬物療法ガイドライン準拠
+    </div>
+
+    ${emergencyFlags.length ? `
+    <div class="emergency-box">
+      <i class="ti ti-alert-triangle"></i>
+      <div class="emergency-text">
+        <strong>⚠️ 緊急サインの確認が必要です</strong><br>
+        ${emergencyFlags.map(f => '・' + f).join('<br>')}
+      </div>
+    </div>` : ''}
+
+    <div class="pain-result-card" style="background:${severityBg};border-color:${severityBorder};">
+      <div style="font-size:18px;font-weight:700;color:${severityColor};margin-bottom:8px;">
+        ${severity}
+      </div>
+      <div style="font-size:13px;color:var(--gray-700);margin-bottom:12px;">
+        <strong>部位：</strong>${site ? site.label : '—'} ／
+        <strong>性状：</strong>${chars.map(c => c.label).join('・') || '—'} ／
+        <strong>パターン：</strong>${pattern ? pattern.label.split('（')[0] : '—'}
+      </div>
+      <div class="section-label">ガイドラインに基づく対応方針</div>
+      <div style="font-size:13px;color:var(--gray-800);line-height:1.6;margin:6px 0 12px;">
+        ${approach}
+      </div>
+      ${additionalInfo ? `
+      <div class="section-label">追加で考慮すべき事項</div>
+      <ul class="selfcare-list" style="margin-top:6px;">${additionalInfo}</ul>` : ''}
+    </div>
+
+    <div style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;">
+      <div class="section-label" style="margin-bottom:10px;">オピオイド等価換算表（スイッチング参考）</div>
+      <div style="font-size:11px;color:var(--gray-500);margin-bottom:8px;">以下はすべて「経口モルヒネ 60mg/日」相当の換算例です（慶應義塾大学病院緩和ケアセンター・国立がん研究センター換算表より）</div>
+      <table class="opioid-table">
+        <thead><tr><th>薬剤名（剤型）</th><th>代表的な商品名</th><th>換算量</th></tr></thead>
+        <tbody>
+          <tr><td class="drug-name">経口モルヒネ</td><td>MSコンチン、モルペス等</td><td>60 mg/日</td></tr>
+          <tr><td class="drug-name">モルヒネ注（持続）</td><td>モルヒネ注1%等</td><td>30 mg/日</td></tr>
+          <tr><td class="drug-name">モルヒネ坐剤</td><td>アンペック坐剤</td><td>40 mg/日</td></tr>
+          <tr><td class="drug-name">経口オキシコドン</td><td>オキシコンチンTR、オキノーム</td><td>40 mg/日</td></tr>
+          <tr><td class="drug-name">オキシコドン注（持続）</td><td>オキファスト注</td><td>30 mg/日</td></tr>
+          <tr><td class="drug-name">フェンタニル貼付剤</td><td>フェントステープ2mg（1日製剤）</td><td>2 mg/日相当（推定吸収量600μg/日）</td></tr>
+          <tr><td class="drug-name">フェンタニル注（持続）</td><td>フェンタニル注</td><td>0.6 mg/日</td></tr>
+          <tr><td class="drug-name">経口ヒドロモルフォン</td><td>ナルサス、ナルラピド</td><td>12 mg/日</td></tr>
+          <tr><td class="drug-name">ヒドロモルフォン注（持続）</td><td>ナルベイン注</td><td>2.4 mg/日</td></tr>
+          <tr><td class="drug-name">経口トラマドール</td><td>トラマール、ワントラム</td><td>300 mg/日</td></tr>
+          <tr><td class="drug-name">経口コデイン</td><td>コデインリン酸塩錠</td><td>360 mg/日</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10px;color:var(--gray-400);margin-top:8px;">※タペンタドール（タペンタ）は2025年に製造販売中止決定。※換算値はあくまで目安。スイッチング時は不完全交差耐性を考慮し25〜50%減量から開始。最終判断は処方医が行います。</div>
+    </div>
+
+    <div class="disclaimer" style="margin-top:0;">
+      <strong>【根拠】</strong>日本緩和医療学会「がん疼痛の薬物療法に関するガイドライン」(jsco-cpg.jp/guideline/23.html)・慶應義塾大学病院緩和ケアセンター換算表・国立がん研究センター緩和ケアチーム換算例に基づきます。最終的な薬剤選択・投与量の決定は処方医が行います。
+    </div>
+  `;
+  goStep(4);
+}
+
 const SKIN_IMGS = {
   'erythema_g1': 'erythema_g1.png',
   'erythema_g2': 'erythema_g2.png',
@@ -1222,10 +1647,8 @@ let state = { cat:null, sym:null, symGrade:0, qAnswers:{} };
 
 function selectCat(cat) {
   state.cat = cat; state.sym = null; state.symGrade = 0; state.qAnswers = {};
-  if (cat === 'skin') {
-    selectCatSkin();
-    return;
-  }
+  if (cat === 'skin') { selectCatSkin(); return; }
+  if (cat === 'pain') { selectCatPain(); return; }
   renderSyms(); goStep(2);
 }
 
@@ -1320,6 +1743,7 @@ function goStep(n) {
 function resetAll() {
   state = { cat:null, sym:null, symGrade:0, qAnswers:{} };
   skinState = { selectedParts:{}, bsa:0, skinType:null, grade:null };
+  painState = { site:null, chars:[], nrs:null, pattern:null, currentDrug:null, currentDose:null, subStep:1 };
   goStep(1);
 }
 </script>
