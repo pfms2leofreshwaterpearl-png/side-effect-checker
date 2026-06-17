@@ -501,6 +501,102 @@
       stroke: var(--pink-400);
     }
 
+
+    /* ── Opioid Sticky Bar ── */
+    .opioid-sticky {
+      position: sticky;
+      top: 56px; /* header height */
+      z-index: 90;
+      background: white;
+      border-bottom: 2px solid var(--pink-200);
+      box-shadow: 0 4px 12px rgba(232,93,138,0.10);
+      margin: 0 -1rem;
+      padding: 0 1rem;
+      display: none; /* pain カテゴリ選択時に表示 */
+    }
+    .opioid-sticky.visible { display: block; }
+    .opioid-sticky-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .opioid-sticky-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pink-500);
+    }
+    .opioid-sticky-summary {
+      font-size: 12px;
+      color: var(--gray-600);
+      font-weight: 400;
+    }
+    .opioid-sticky-toggle {
+      font-size: 11px;
+      color: var(--pink-400);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .opioid-sticky-body {
+      display: none;
+      padding-bottom: 12px;
+      border-top: 0.5px solid var(--pink-100);
+      padding-top: 10px;
+    }
+    .opioid-sticky-body.open { display: block; }
+    .opioid-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .opioid-input-row select {
+      padding: 7px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: var(--font);
+      background: white;
+      color: var(--gray-800);
+    }
+    .opioid-input-row input[type=number] {
+      width: 64px;
+      padding: 7px 8px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: var(--font);
+      text-align: center;
+    }
+    .opioid-input-row .unit-label {
+      font-size: 11px;
+      color: var(--gray-400);
+      white-space: nowrap;
+    }
+    .opioid-day-result {
+      background: var(--pink-50);
+      border: 1px solid var(--pink-200);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--pink-600);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .opioid-sticky-table-wrap {
+      overflow-x: auto;
+      margin-top: 4px;
+    }
+    .opioid-sticky table.opioid-table th { font-size: 11px; padding: 5px 6px; }
+    .opioid-sticky table.opioid-table td { font-size: 11px; padding: 5px 6px; }
+
     /* ── Pain multi-step ── */
     .pain-sub { font-size: 11px; color: var(--pink-400); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
@@ -616,6 +712,38 @@
 </header>
 
 <main>
+  <!-- Opioid Sticky Bar（痛みカテゴリ選択時のみ表示） -->
+  <div class="opioid-sticky" id="opioid-sticky-bar">
+    <div class="opioid-sticky-header" onclick="toggleStickyBar()">
+      <div class="opioid-sticky-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M9 17c0 2.2 1.3 4 3 4s3-1.8 3-4"/></svg>
+        オピオイド換算電卓
+        <span class="opioid-sticky-summary" id="sticky-summary">薬剤・投与量を入力すると換算表が更新されます</span>
+      </div>
+      <span class="opioid-sticky-toggle" id="sticky-toggle-label">
+        <i class="ti ti-chevron-down"></i> 展開
+      </span>
+    </div>
+    <div class="opioid-sticky-body" id="opioid-sticky-body">
+      <div class="opioid-input-row">
+        <select id="sticky-drug-select" onchange="updateStickyCalc()">
+          <option value="">── 薬剤を選択 ──</option>
+        </select>
+        <input type="number" id="sticky-dose-input" min="0" step="1" placeholder="1回量" onchange="updateStickyCalc()" oninput="updateStickyCalc()">
+        <select id="sticky-freq-select" onchange="updateStickyCalc()" style="width:90px;padding:7px 6px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:12px;font-family:var(--font);">
+          <option value="1">×1/日</option>
+          <option value="2" selected>×2/日</option>
+          <option value="3">×3/日</option>
+          <option value="4">×4/日</option>
+          <option value="6">×6/日</option>
+          <option value="custom">直接入力</option>
+        </select>
+        <div class="opioid-day-result" id="sticky-day-result">— mg/日</div>
+      </div>
+      <div id="sticky-table-area" class="opioid-sticky-table-wrap"></div>
+    </div>
+  </div>
+
   <!-- Hero -->
   <div class="hero">
     <div class="hero-chip">
@@ -825,6 +953,7 @@ let painState = {
 
 function selectCatPain() {
   painState = { site:null, chars:[], nrs:null, pattern:null, currentDrug:null, currentDose:null, subStep:1 };
+  showStickyBar();
   renderPainStep1();
   goStep(2);
 }
@@ -934,7 +1063,7 @@ function renderPainStep4() {
     const btn = document.createElement('button');
     btn.className = 'pattern-btn';
     btn.innerHTML = `<div class="pattern-name">${p.label}</div><div class="pattern-desc">${p.desc}</div>`;
-    btn.onclick = () => { painState.pattern = p.id; renderPainStep5(); };
+    btn.onclick = () => { painState.pattern = p.id; showPainResult(); };
     grid.appendChild(btn);
   });
 }
@@ -978,22 +1107,253 @@ function updateOpioidCalc() {
   if (!drug || !dose || dose <= 0) { area.innerHTML = ''; return; }
   painState.currentDose = dose;
   const morphineEq = dose * drug.toMorphine;
-  let rows = '';
+
+  // レスキュー薬情報（速放性製剤のみ）
+  // 根拠：ガイドライン「レスキュー薬は定時投与1日量の1/6を目安」
+  const RESCUE_DRUGS = [
+    { name:'経口モルヒネ速放性',      brand:'オプソ内服液、モルヒネ塩酸塩錠',         toMorphine:1,    unit:'mg/回',  note:'15〜30分毎に使用可。4時間毎投与なら1回量の半量でも可' },
+    { name:'モルヒネ注（早送り）',     brand:'モルヒネ注1%',                           toMorphine:2,    unit:'mg/回',  note:'持続注射の1時間量を目安。15分毎に使用可' },
+    { name:'経口オキシコドン速放性',   brand:'オキノーム散',                            toMorphine:1.5,  unit:'mg/回',  note:'定時オキシコドン1日量の1/6量が目安' },
+    { name:'オキシコドン注（早送り）', brand:'オキファスト注',                           toMorphine:2,    unit:'mg/回',  note:'持続注射の1時間量を目安。15分毎に使用可' },
+    { name:'フェンタニル注（早送り）', brand:'フェンタニル注',                           toMorphine:100,  unit:'mg/回',  note:'持続注射の1時間量を目安。15分毎に使用可' },
+    { name:'経口ヒドロモルフォン速放性',brand:'ナルラピド錠',                           toMorphine:5,    unit:'mg/回',  note:'定時ヒドロモルフォン1日量の1/6量が目安' },
+    { name:'フェンタニル口腔粘膜吸収剤',brand:'アブストラル舌下錠・イーフェン頬粘膜錠', toMorphine:null, unit:'—',      note:'経口モルヒネ換算60mg/日以上が適応目安。定時量からの単純換算不可・個別タイトレーション必須' },
+  ];
+
+  const fmt = v => v < 0.01 ? v.toFixed(3) : v < 1 ? v.toFixed(2) : v % 1 === 0 ? v : v.toFixed(1);
+
+  // スイッチング換算
+  let switchRows = '';
   OPIOID_DRUGS.forEach(d => {
     if (d.id === drugId) return;
     const converted = morphineEq / d.toMorphine;
-    rows += `<div class="calc-row">
-      <span class="calc-drug">${d.name}</span>
-      <span class="calc-val">${converted % 1 === 0 ? converted : converted.toFixed(1)}</span>
-      <span class="calc-unit">${d.unit}</span>
-    </div>`;
+    switchRows += `<tr>
+      <td class="drug-name">${d.name}</td>
+      <td style="font-size:11px;color:var(--gray-500)">${d.brand}</td>
+      <td style="font-weight:700;color:var(--pink-500)">${fmt(converted)} ${d.unit}</td>
+    </tr>`;
   });
+
+  // レスキュー換算（1日量の1/6）
+  const rescueEq = morphineEq / 6;
+  let rescueRows = '';
+  RESCUE_DRUGS.forEach(d => {
+    let valStr = d.toMorphine === null
+      ? '個別タイトレーション'
+      : fmt(rescueEq / d.toMorphine) + ' ' + d.unit;
+    rescueRows += `<tr>
+      <td class="drug-name">${d.name}</td>
+      <td style="font-size:11px;color:var(--gray-500)">${d.brand}</td>
+      <td style="font-weight:700;color:var(--pink-500)">${valStr}</td>
+      <td style="font-size:10px;color:var(--gray-400);line-height:1.4">${d.note}</td>
+    </tr>`;
+  });
+
   area.innerHTML = `
+    <div class="calc-box" style="margin-bottom:10px;">
+      <div class="calc-label">📊 スイッチング換算（経口モルヒネ換算値：${fmt(morphineEq)} mg/日）</div>
+      <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;">※切り替え時は不完全交差耐性を考慮し <strong>25〜50%減量</strong> から開始してください</div>
+      <table class="opioid-table"><thead><tr><th>薬剤名</th><th>商品名例</th><th>換算量/日</th></tr></thead>
+      <tbody>${switchRows}</tbody></table>
+    </div>
     <div class="calc-box">
-      <div class="calc-label">オピオイド等価換算（経口モルヒネ換算値：${morphineEq % 1 === 0 ? morphineEq : morphineEq.toFixed(1)} mg/日）</div>
-      ${rows}
-      <div style="font-size:10px;color:var(--gray-400);margin-top:8px;">※換算値はあくまで目安です。実際の切り替えは不完全交差耐性を考慮し25〜50%減量から開始し、処方医が決定します。</div>
+      <div class="calc-label">🆘 レスキュー薬換算（定時1日量の1/6 ＝ 経口モルヒネ換算 ${fmt(rescueEq)} mg/回）</div>
+      <div style="font-size:11px;color:var(--gray-500);margin-bottom:6px;">根拠：日本緩和医療学会ガイドライン「レスキュー薬は定時1日量の <strong>1/6</strong> を1回量の目安とし、15〜30分毎に使用可能」</div>
+      <table class="opioid-table"><thead><tr><th>速放性製剤</th><th>商品名例</th><th>1回量の目安</th><th>備考</th></tr></thead>
+      <tbody>${rescueRows}</tbody></table>
+      <div style="font-size:10px;color:var(--gray-400);margin-top:8px;">※フェンタニル貼付剤使用中のレスキューは経口または注射の速放性製剤を使用（貼付剤自体はレスキュー不可）。</div>
     </div>`;
+}
+
+
+
+// ── Opioid Sticky Bar ──────────────────────────────────────────
+var stickyBarOpen = true;
+
+function initStickyBar() {
+  var sel = document.getElementById('sticky-drug-select');
+  if (!sel || sel.options.length > 1) return;
+  OPIOID_DRUGS.forEach(function(d) {
+    var opt = document.createElement('option');
+    opt.value = d.id;
+    opt.textContent = d.name + '（' + d.brand.split('、')[0] + '）';
+    sel.appendChild(opt);
+  });
+}
+
+function showStickyBar() {
+  var bar = document.getElementById('opioid-sticky-bar');
+  if (bar) {
+    bar.classList.add('visible');
+    initStickyBar();
+    var body = document.getElementById('opioid-sticky-body');
+    var label = document.getElementById('sticky-toggle-label');
+    if (body) body.classList.add('open');
+    if (label) label.innerHTML = '<i class="ti ti-chevron-up"></i> 閉じる';
+  }
+}
+
+function hideStickyBar() {
+  var bar = document.getElementById('opioid-sticky-bar');
+  if (bar) bar.classList.remove('visible');
+}
+
+function toggleStickyBar() {
+  stickyBarOpen = !stickyBarOpen;
+  var body = document.getElementById('opioid-sticky-body');
+  var label = document.getElementById('sticky-toggle-label');
+  if (body) body.classList.toggle('open', stickyBarOpen);
+  if (label) label.innerHTML = stickyBarOpen
+    ? '<i class="ti ti-chevron-up"></i> 閉じる'
+    : '<i class="ti ti-chevron-down"></i> 展開';
+}
+
+function updateStickyCalc() {
+  var drugId = document.getElementById('sticky-drug-select').value;
+  var dosePerTime = parseFloat(document.getElementById('sticky-dose-input').value);
+  var freqSel = document.getElementById('sticky-freq-select').value;
+  var freq = parseFloat(freqSel) || 1;
+  var drug = OPIOID_DRUGS.find(function(d){ return d.id === drugId; });
+  var dayResult = document.getElementById('sticky-day-result');
+  var summary = document.getElementById('sticky-summary');
+  var tableArea = document.getElementById('sticky-table-area');
+
+  if (!drug || !dosePerTime || dosePerTime <= 0) {
+    if (dayResult) dayResult.textContent = '— mg/日';
+    if (summary) summary.textContent = '薬剤・投与量を入力すると換算表が更新されます';
+    if (tableArea) tableArea.innerHTML = '';
+    painState.currentDrug = null;
+    painState.currentDose = null;
+    return;
+  }
+
+  var dailyDose = dosePerTime * freq;
+  var fmtN = function(v) {
+    return v < 0.01 ? v.toFixed(3) : v < 1 ? v.toFixed(2) : v % 1 === 0 ? String(v) : v.toFixed(1);
+  };
+  var morphineEq = dailyDose * drug.toMorphine;
+
+  // painStateに反映（結果画面にも連動）
+  painState.currentDrug = drugId;
+  painState.currentDose = dailyDose;
+
+  // サマリー更新
+  if (dayResult) dayResult.textContent = fmtN(dailyDose) + ' mg/日';
+  if (summary) summary.textContent = drug.name + ' ' + fmtN(dailyDose) + drug.unit + ' → 経口モルヒネ換算 ' + fmtN(morphineEq) + ' mg/日';
+
+  // 換算表更新
+  if (!tableArea) return;
+  var STICKY_DRUGS = [
+    { name:'経口モルヒネ',        brand:'MSコンチン、モルペス等',  toMorphine:1,    unit:'mg/日', rMin:0.10,  rMax:0.20,  rNote:'定期量の10〜20%／30分毎' },
+    { name:'経口オキシコドン',    brand:'オキシコンチンTR・オキノーム',toMorphine:1.5,  unit:'mg/日', rMin:0.125, rMax:0.25,  rNote:'定期量の1/8〜1/4／60分毎' },
+    { name:'経口ヒドロモルフォン',brand:'ナルサス・ナルラピド',     toMorphine:5,    unit:'mg/日', rMin:0.167, rMax:0.25,  rNote:'定期量の1/6〜1/4／60分毎' },
+    { name:'モルヒネ注（持続）',  brand:'モルヒネ注1%等',           toMorphine:2,    unit:'mg/日', rMin:null,  rMax:null,  rNote:'1時間量を早送り' },
+    { name:'オキシコドン注（持続）',brand:'オキファスト注',          toMorphine:2,    unit:'mg/日', rMin:null,  rMax:null,  rNote:'1時間量を早送り' },
+    { name:'フェンタニル注（持続）',brand:'フェンタニル注',          toMorphine:100,  unit:'mg/日', rMin:null,  rMax:null,  rNote:'1時間量を早送り' },
+    { name:'ヒドロモルフォン注（持続）',brand:'ナルベイン注',        toMorphine:25,   unit:'mg/日', rMin:null,  rMax:null,  rNote:'1時間量を早送り' },
+    { name:'フェンタニル貼付剤',  brand:'フェントステープ（1日製剤）',toMorphine:100, unit:'mg/日', rMin:null,  rMax:null,  rNote:'貼付剤自体はレスキュー不可' },
+    { name:'経口トラマドール',    brand:'トラマール、ワントラム',    toMorphine:0.2,  unit:'mg/日', rMin:null,  rMax:null,  rNote:'強オピオイドへ変更検討' },
+  ];
+
+  var isCurrent = function(d) { return d.name.indexOf(drug.name.replace('経口','').replace('注（持続）','')) >= 0; };
+  var rows = STICKY_DRUGS.map(function(d) {
+    var doseD = fmtN(morphineEq / d.toMorphine);
+    var resc = d.rMin === null ? '—' : fmtN((morphineEq / d.toMorphine) * d.rMin) + '〜' + fmtN((morphineEq / d.toMorphine) * d.rMax) + ' mg/回';
+    var cur = (d.name === drug.name);
+    var bg = cur ? 'background:#FFF0F6;' : '';
+    var badge = cur ? '<span style="font-size:9px;background:#FFB3CC;color:#922050;border-radius:4px;padding:1px 4px;margin-left:3px;">現在</span>' : '';
+    return '<tr style="' + bg + '"><td class="drug-name" style="font-size:11px">' + d.name + badge + '</td>'
+      + '<td style="font-size:10px;color:#9CA3AF">' + d.brand + '</td>'
+      + '<td style="font-weight:700;color:#E85D8A;font-size:11px">' + doseD + ' ' + d.unit + '</td>'
+      + '<td style="font-weight:600;color:#7B341E;font-size:11px">' + resc + '</td>'
+      + '<td style="font-size:10px;color:#9CA3AF">' + d.rNote + '</td>'
+      + '</tr>';
+  }).join('');
+
+  tableArea.innerHTML = '<table class="opioid-table"><thead><tr>'
+    + '<th>薬剤名</th><th>商品名例</th><th>定時量/日</th><th>レスキュー1回量</th><th>備考</th>'
+    + '</tr></thead><tbody>' + rows + '</tbody></table>'
+    + '<div style="font-size:10px;color:#9CA3AF;margin-top:6px;">※スイッチング時は不完全交差耐性を考慮し25〜50%減量から開始。最終判断は処方医が行います。</div>';
+}
+
+function buildOpioidTable() {
+  var fmtN = function(v) {
+    return v < 0.01 ? v.toFixed(3) : v < 1 ? v.toFixed(2) : v % 1 === 0 ? String(v) : v.toFixed(1);
+  };
+  var currentDrug = OPIOID_DRUGS.find(function(d){ return d.id === painState.currentDrug; });
+  var currentDose = painState.currentDose;
+  var hasDrug = !!(currentDrug && currentDose && currentDose > 0);
+  var baseEq = hasDrug ? currentDose * currentDrug.toMorphine : 60;
+  var rescueEq = baseEq / 6;
+
+  // 薬剤ごとのレスキュー割合（国がん換算表・各添付文書より）
+  // 根拠：国立がん研究センター中央病院 緩和医療科 オピオイド製剤換算表(2019)
+  //   モルヒネ経口：定期量の10〜20%（=1/10〜1/5）
+  //   オキシコドン経口：定期量の1/8〜1/4
+  //   ヒドロモルフォン経口：定期量の1/6〜1/4
+  //   注射（全種）：持続注射1時間量
+  var RESULT_DRUGS = [
+    { name:'経口モルヒネ',          brand:'MSコンチン、モルペス等',              toMorphine:1,     unit:'mg/日', rescueBrand:'オプソ内服液・モルヒネ塩酸塩錠',         rescueRatioMin:0.10, rescueRatioMax:0.20, rescueNote:'定期量の10〜20%／30分毎に追加可' },
+    { name:'モルヒネ注（持続）',     brand:'モルヒネ注1%等',                      toMorphine:2,     unit:'mg/日', rescueBrand:'早送り = 持続注射1時間量',               rescueRatioMin:null, rescueRatioMax:null, rescueNote:'持続注射1時間量を早送り／10〜20分毎に追加可' },
+    { name:'モルヒネ坐剤',           brand:'アンペック坐剤',                       toMorphine:1.5,   unit:'mg/日', rescueBrand:'経口速放性を使用',                       rescueRatioMin:null, rescueRatioMax:null, rescueNote:'レスキューは経口速放性製剤を使用' },
+    { name:'経口オキシコドン',       brand:'オキシコンチンTR、オキノーム',         toMorphine:1.5,   unit:'mg/日', rescueBrand:'オキノーム散',                           rescueRatioMin:0.125,rescueRatioMax:0.25, rescueNote:'定期量の1/8〜1/4／60分毎に追加可' },
+    { name:'オキシコドン注（持続）', brand:'オキファスト注',                       toMorphine:2,     unit:'mg/日', rescueBrand:'早送り = 持続注射1時間量',               rescueRatioMin:null, rescueRatioMax:null, rescueNote:'持続注射1時間量を早送り／10〜20分毎に追加可' },
+    { name:'フェンタニル貼付剤',     brand:'フェントステープ（1日製剤）',          toMorphine:100,   unit:'mg/日', rescueBrand:'経口or注射速放性を使用（貼付剤不可）',   rescueRatioMin:null, rescueRatioMax:null, rescueNote:'貼付剤自体はレスキュー不可。経口モルヒネ換算量の10〜20%相当の速放性製剤を使用' },
+    { name:'フェンタニル注（持続）', brand:'フェンタニル注',                       toMorphine:100,   unit:'mg/日', rescueBrand:'早送り = 持続注射1時間量',               rescueRatioMin:null, rescueRatioMax:null, rescueNote:'持続注射1時間量を早送り／10〜20分毎に追加可' },
+    { name:'経口ヒドロモルフォン',   brand:'ナルサス（定時）・ナルラピド（頓用）', toMorphine:5,     unit:'mg/日', rescueBrand:'ナルラピド錠',                           rescueRatioMin:0.167,rescueRatioMax:0.25, rescueNote:'定期量の1/6〜1/4／60分毎に追加可' },
+    { name:'ヒドロモルフォン注（持続）', brand:'ナルベイン注',                     toMorphine:25,    unit:'mg/日', rescueBrand:'早送り = 持続注射1時間量',               rescueRatioMin:null, rescueRatioMax:null, rescueNote:'持続注射1時間量を早送り' },
+    { name:'経口トラマドール',       brand:'トラマール、ワントラム',               toMorphine:0.2,   unit:'mg/日', rescueBrand:'通常レスキューとして使用しない',         rescueRatioMin:null, rescueRatioMax:null, rescueNote:'強オピオイドへの変更を検討' },
+    { name:'経口コデイン',           brand:'コデインリン酸塩錠',                   toMorphine:0.167, unit:'mg/日', rescueBrand:'通常レスキューとして使用しない',         rescueRatioMin:null, rescueRatioMax:null, rescueNote:'有効限界あり。強オピオイドへの変更を検討' },
+  ];
+
+  var idMap = {
+    'morphine_oral':'経口モルヒネ', 'morphine_iv':'モルヒネ注（持続）',
+    'morphine_rect':'モルヒネ坐剤', 'oxycodone_oral':'経口オキシコドン',
+    'oxycodone_iv':'オキシコドン注（持続）', 'fentanyl_patch':'フェンタニル貼付剤',
+    'fentanyl_iv':'フェンタニル注（持続）', 'hydromorphone_oral':'経口ヒドロモルフォン',
+    'hydromorphone_iv':'ヒドロモルフォン注（持続）', 'tramadol_oral':'経口トラマドール',
+    'codeine_oral':'経口コデイン'
+  };
+  var currentName = currentDrug ? idMap[currentDrug.id] : null;
+
+  var rows = RESULT_DRUGS.map(function(d) {
+    var doseVal = fmtN(baseEq / d.toMorphine);
+    var dailyDose = baseEq / d.toMorphine;
+    var rescueVal;
+    if (d.rescueRatioMin === null) {
+      rescueVal = '—';
+    } else {
+      var rMin = fmtN(dailyDose * d.rescueRatioMin);
+      var rMax = fmtN(dailyDose * d.rescueRatioMax);
+      rescueVal = rMin + '〜' + rMax + ' ' + d.unit.replace('/日','') + '/回';
+    }
+    var isCurrent = (d.name === currentName);
+    var rowStyle = isCurrent ? 'background:#FFF0F6;' : '';
+    var badge = isCurrent ? '<span style="font-size:9px;background:#FFB3CC;color:#922050;border-radius:4px;padding:1px 5px;margin-left:4px;">現在</span>' : '';
+    return '<tr style="' + rowStyle + '">'
+      + '<td class="drug-name">' + d.name + badge + '</td>'
+      + '<td style="font-size:11px;color:#4B5563">' + d.brand + '</td>'
+      + '<td style="font-weight:700;color:#E85D8A">' + doseVal + ' ' + d.unit + '</td>'
+      + '<td style="font-weight:600;color:#7B341E">' + rescueVal + '</td>'
+      + '<td style="font-size:10px;color:#9CA3AF;line-height:1.4">' + d.rescueBrand + '<br><span style="color:#C0406D">' + d.rescueNote + '</span></td>'
+      + '</tr>';
+  }).join('');
+
+  var title = hasDrug
+    ? currentDrug.name + ' ' + fmtN(currentDose) + currentDrug.unit + ' → 経口モルヒネ換算 ' + fmtN(baseEq) + ' mg/日'
+    : '経口モルヒネ 60 mg/日 相当の換算例（参考）';
+
+  var el = document.getElementById('result-opioid-table');
+  if (!el) return;
+  el.innerHTML = '<div class="section-label" style="margin-bottom:6px;">オピオイド等価換算表（定時量・レスキュー量）</div>'
+    + '<div style="font-size:12px;font-weight:500;color:#E85D8A;margin-bottom:8px;">基準：' + title + '</div>'
+    + '<table class="opioid-table"><thead><tr>'
+    + '<th>薬剤名</th><th>商品名例</th><th>定時量/日</th><th>レスキュー1回量</th><th>レスキュー薬</th>'
+    + '</tr></thead><tbody>' + rows + '</tbody></table>'
+    + '<div style="font-size:10px;color:#9CA3AF;margin-top:8px;">'
+    + '※レスキュー量は薬剤により異なります（モルヒネ経口：定期量の10〜20%、オキシコドン経口：1/8〜1/4、ヒドロモルフォン経口：1/6〜1/4、注射：1時間量）。スイッチング時は不完全交差耐性を考慮し<strong>25〜50%減量</strong>から開始。最終判断は処方医が行います。<br>'
+    + '※タペンタドール（タペンタ）は2025年製造販売中止。'
+    + '</div>';
 }
 
 function showPainResult() {
@@ -1089,26 +1449,7 @@ function showPainResult() {
       <ul class="selfcare-list" style="margin-top:6px;">${additionalInfo}</ul>` : ''}
     </div>
 
-    <div style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;">
-      <div class="section-label" style="margin-bottom:10px;">オピオイド等価換算表（スイッチング参考）</div>
-      <div style="font-size:11px;color:var(--gray-500);margin-bottom:8px;">以下はすべて「経口モルヒネ 60mg/日」相当の換算例です（慶應義塾大学病院緩和ケアセンター・国立がん研究センター換算表より）</div>
-      <table class="opioid-table">
-        <thead><tr><th>薬剤名（剤型）</th><th>代表的な商品名</th><th>換算量</th></tr></thead>
-        <tbody>
-          <tr><td class="drug-name">経口モルヒネ</td><td>MSコンチン、モルペス等</td><td>60 mg/日</td></tr>
-          <tr><td class="drug-name">モルヒネ注（持続）</td><td>モルヒネ注1%等</td><td>30 mg/日</td></tr>
-          <tr><td class="drug-name">モルヒネ坐剤</td><td>アンペック坐剤</td><td>40 mg/日</td></tr>
-          <tr><td class="drug-name">経口オキシコドン</td><td>オキシコンチンTR、オキノーム</td><td>40 mg/日</td></tr>
-          <tr><td class="drug-name">オキシコドン注（持続）</td><td>オキファスト注</td><td>30 mg/日</td></tr>
-          <tr><td class="drug-name">フェンタニル貼付剤</td><td>フェントステープ2mg（1日製剤）</td><td>2 mg/日相当（推定吸収量600μg/日）</td></tr>
-          <tr><td class="drug-name">フェンタニル注（持続）</td><td>フェンタニル注</td><td>0.6 mg/日</td></tr>
-          <tr><td class="drug-name">経口ヒドロモルフォン</td><td>ナルサス、ナルラピド</td><td>12 mg/日</td></tr>
-          <tr><td class="drug-name">ヒドロモルフォン注（持続）</td><td>ナルベイン注</td><td>2.4 mg/日</td></tr>
-          <tr><td class="drug-name">経口トラマドール</td><td>トラマール、ワントラム</td><td>300 mg/日</td></tr>
-          <tr><td class="drug-name">経口コデイン</td><td>コデインリン酸塩錠</td><td>360 mg/日</td></tr>
-        </tbody>
-      </table>
-      <div style="font-size:10px;color:var(--gray-400);margin-top:8px;">※タペンタドール（タペンタ）は2025年に製造販売中止決定。※換算値はあくまで目安。スイッチング時は不完全交差耐性を考慮し25〜50%減量から開始。最終判断は処方医が行います。</div>
+    <div style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;" id="result-opioid-table">
     </div>
 
     <div class="disclaimer" style="margin-top:0;">
@@ -1116,6 +1457,7 @@ function showPainResult() {
     </div>
   `;
   goStep(4);
+  setTimeout(buildOpioidTable, 50);
 }
 
 const SKIN_IMGS = {
@@ -1744,6 +2086,7 @@ function resetAll() {
   state = { cat:null, sym:null, symGrade:0, qAnswers:{} };
   skinState = { selectedParts:{}, bsa:0, skinType:null, grade:null };
   painState = { site:null, chars:[], nrs:null, pattern:null, currentDrug:null, currentDose:null, subStep:1 };
+  hideStickyBar();
   goStep(1);
 }
 </script>
